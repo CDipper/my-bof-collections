@@ -1,0 +1,16 @@
+alias IHxHelpPaneServer {
+    btask($1, "IHxHelpPaneServer interface called in beacon_id $1");
+    if (size(@_) != 2){
+        berror($1,"IHxHelpPaneServer: args error");
+        return;
+    }
+		
+    local('$handle $data $args'); 
+    $handle = openf(script_resource("IHxHelpPaneServer.obj")); 
+    $data = readb($handle, -1);  
+    closef($handle);
+
+    $args = bof_pack($1, "z", $2);
+	
+    beacon_inline_execute($1, $data, "go", $args);
+}
